@@ -1,0 +1,24 @@
+# Ignore logs
+*.log
+
+# Ignore mlrun
+mlruns/
+
+# Ignore saved model (joblib)
+*.joblib
+
+# Ignore Git data
+.git
+.gitignore
+
+# Ignore test directories
+__tests__/
+tests/
+
+# Ignore pycache
+__pycache__/
+*.pyc
+
+
+# Ignore Venv
+.venv/
