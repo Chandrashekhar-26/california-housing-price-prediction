@@ -1,5 +1,4 @@
 from mlflow.tracking import MlflowClient
-from mlflow.exceptions import RestException
 import mlflow
 from config import Config
 import time

@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from app.data_processor import DataProcessor
 from app.model import LinearRegressionModel, DecisionTreeModel, modelManager
 from .best_model_finder import best_model_finder

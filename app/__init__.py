@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI
 from config import Config
 from app.controller import housing_price_prediction_controller
 

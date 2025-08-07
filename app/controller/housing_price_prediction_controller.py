@@ -1,6 +1,6 @@
 from app.service import housingPricePredictionService
-from fastapi import Request, Response
-from fastapi import APIRouter, Query
+from fastapi import Response
+from fastapi import APIRouter
 from app.schema import HousePricePredictionInput
 from prometheus_client import Counter, Summary, Histogram, generate_latest, CONTENT_TYPE_LATEST
 import time

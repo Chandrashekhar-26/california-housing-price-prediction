@@ -2,7 +2,7 @@ from fastapi.responses import RedirectResponse
 from datetime import datetime
 import uvicorn
 import mlflow
-import warnings, logging
+import warnings
 from app import create_app
 from config import Config
 from app.logger import RequestResponseLoggerMiddleware
