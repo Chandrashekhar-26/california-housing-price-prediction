@@ -1,4 +1,5 @@
 fastapi
+pytest
 python-dotenv
 uvicorn
 pydantic
