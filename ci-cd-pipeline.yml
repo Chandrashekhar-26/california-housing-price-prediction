@@ -56,7 +56,7 @@ jobs:
         run: |
           source venv/bin/activate
           pip install pytest
-          pytest tests/
+          pytest ./tests/
 
   docker_build:
     runs-on: ubuntu-latest
