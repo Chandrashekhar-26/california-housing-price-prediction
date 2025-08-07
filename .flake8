@@ -1,0 +1,18 @@
+[flake8]
+# Set maximum line length to 120 characters (default is 79)
+max-line-length = 120
+
+# Ignore specific errors and warnings (e.g., F401 for unused imports)
+ignore = F401, E501
+
+# Enable specific rules
+select = E501, W391
+
+# Exclude specific files or directories from linting
+exclude = .git,__pycache__,venv
+
+# Max number of errors before the linting stops (default is 50)
+max-complexity = 10
+
+# Enable a specific warning if needed (e.g., docstrings)
+# docstring-style = google
