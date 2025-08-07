@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from config import Config
-from app.controller import housing_price_prediction_controller
+from app.controller import housing_price_prediction_controller, housing_price_prediction_router
 
 
 def create_app():
