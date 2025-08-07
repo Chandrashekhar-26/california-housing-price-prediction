@@ -46,4 +46,3 @@ class DataProcessor:
                 df = pd.get_dummies(df, columns=['ocean_proximity'], drop_first=False)
 
         return df
-
