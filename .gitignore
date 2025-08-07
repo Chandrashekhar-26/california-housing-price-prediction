@@ -12,3 +12,7 @@ venv.bak/
 *.csv
 
 ./resources/data/housing.csv.dvc
+mlruns
+.logs
+.log
+.pytest_cache
