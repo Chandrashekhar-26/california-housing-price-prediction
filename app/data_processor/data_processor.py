@@ -20,7 +20,7 @@ class DataProcessor:
         # features and target
         X = df.drop(columns=[target_column])
         y = df[target_column]
-        # split dataset into train n test
+        # split dataset into train n tests
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
         return X_train, X_test, y_train, y_test

@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from app.controller import housing_price_prediction_router
 
-# Create a test client to simulate API requests
+# Create a tests client to simulate API requests
 client = TestClient(housing_price_prediction_router)
 
 
