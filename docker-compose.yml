@@ -31,6 +31,7 @@ services:
 
   app:
     build: .
+    image: cshekhark/california-housing-price-prediction-repo:latest
     container_name: california-housing-price-prediction
     ports:
       - "5001:5001"
