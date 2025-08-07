@@ -52,9 +52,6 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
 
-      - name: List files in the repository
-        run: |
-          ls -R
       - name: Run tests
         run: |
           source venv/bin/activate
