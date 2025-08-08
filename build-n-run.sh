@@ -16,8 +16,8 @@
 
 
 # Build and push image to docker hub
-docker-compose build
-docker-compose push
+# docker-compose build
+# docker-compose push
 
 # Build and Run Docker along with Prometheus
 docker-compose up --build
