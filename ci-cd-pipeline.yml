@@ -100,3 +100,28 @@ jobs:
       - name: Push Docker images to Docker Hub
         run: |
           docker-compose -f docker-compose.yml push
+
+  deploy:
+    name: Deploy to Cloud (Remote Host)
+    runs-on: ubuntu-latest
+    needs: docker_build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install sshpass
+        run: sudo apt-get install sshpass -y
+
+      - name: Deploy using SSH and password
+        env:
+          HOST: ${{ secrets.REMOTE_HOST }}
+          USER: ${{ secrets.REMOTE_USER }}
+          PASSWORD: ${{ secrets.REMOTE_PASS }}
+        run: |
+          sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+            cd /home/ubuntu/application/source/california-housing-price-prediction
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker image prune -af
+          EOF
