@@ -7,6 +7,10 @@ from .logger import logger
 class RequestResponseLoggerMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
+        # Log only prediction
+        if request.url.path != "/app/api/v1/housing-price/predict":
+            return await call_next(request)
+
         start_time = time.time()
 
         # Log Request and Response
@@ -49,11 +53,3 @@ class RequestResponseLoggerMiddleware(BaseHTTPMiddleware):
         )
 
         return body.decode("utf-8", errors="ignore"), cloned_response
-
-    # async def response_to_text(self, response):
-    #     body = b""
-    #     async for chunk in response.body_iterator:
-    #         body += chunk
-    #
-    #     response.body_iterator = iter([body])
-    #     return body.decode("utf-8", errors="ignore")
