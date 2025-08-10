@@ -9,6 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Copy requirements
 COPY requirements.txt .
+COPY ./resources/data/housing_data_raw.csv ./resources/data/housing.csv
+COPY .env.prod .env
 
 # Install dependencies from requirements
 RUN pip install -r requirements.txt
