@@ -1,103 +1,88 @@
-# California Housing Price Prediction
+# California Housing Price Prediction - MLOps Project
 
-This project leverages machine learning to predict housing prices based on various features such as the number of rooms, location, population, income, and more. It uses FastAPI for building the web application, Docker for containerization, and MLflow for tracking machine learning experiments.
-Also it is integrated with prometheus and grafana to have a nice dashboard to monitor.
-The main focus of this project is to use MLOps concepts and tools nicely to manage for a machine learning system.
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Running the App](#running-the-app)
-5. [Endpoints](#endpoints)
-   - [POST /predict](#post-predict)
-   - [GET /retrain](#get-retrain)
-   - [GET /metrics](#get-metrics)
-6. [Testing](#testing)
-7. [Docker Setup](#docker-setup)
-8. [MLflow Integration](#mlflow-integration)
-9. [Grafana & Prometheus Integration](#grafana--prometheus-integration)
-10. [Contributing](#contributing)
-11. [License](#license)
+This project implements a complete MLOps workflow for the California Housing dataset, enabling automated, reproducible, and production-ready model deployment. The pipeline spans from dataset preparation to monitoring in production, ensuring that the deployed model consistently delivers high-quality predictions.
 
----
+## 🏛️ System Architecture
 
-## Project Overview
+The architecture is built on a containerized MLOps pipeline for training, serving, monitoring, and visualizing the model. It leverages Docker for orchestration, ensuring portability, scalability, and reproducibility.
 
-The California Housing Price Prediction application predicts the price of a house based on a set of features. The system uses a machine learning model trained on historical data of housing prices in California. This model is served through a FastAPI app and includes functionality to predict prices, retrain the model, and monitor metrics related to the prediction process.
-Also it is integrated with prometheus and grafana to have a nice dashboard to monitor.
-**The main focus of this project is to use MLOps concepts and tools nicely to manage for a machine learning system.**
----
+## 🚀 Project Summary
 
-## Features
+This project delivers an industry-standard MLOps pipeline that automates the entire machine learning lifecycle. The approach ensures reproducibility, scalability, and maintainability while selecting and deploying the best regression model based on R² score, making it ready for real-world production use.
 
-- **Price Prediction**: Predicts the price of a house based on various factors, including the number of rooms, age of the house, median income, etc.
-  
-- **Model Retraining**: Allows for retraining the model when new data becomes available.
+### 1. Data Versioning and Preprocessing
 
-- **Best Model**: Finding best performing model programmatically and using it for predictions.
-- 
-- **Metrics Monitoring**: Exposes important metrics for monitoring model performance and prediction latency.
+The California Housing dataset was loaded and preprocessed to handle missing values, normalize features, and prepare target variables. A clean, modular directory structure was maintained for data, source code, and models, with dataset versioning managed using DVC to ensure reproducibility.
 
-- **Dockerized Application**: The entire application, including the API, model, and database, is packaged in Docker containers for easy deployment.
+### 2. Model Development and Experiment Tracking
 
-- **MLflow Integration**: Tracks experiments and models using MLflow, providing version control and monitoring of the model training process.
+Two regression models, Linear Regression and Decision Tree Regressor, were trained. All experiments were tracked using **MLflow**, recording parameters, metrics, and artifacts. The best model, evaluated on the highest R² score, was registered in the MLflow Model Registry for deployment.
 
-- **Grafana and Prometheus Integration**: Provides a dashboard for monitoring metrics such as prediction requests, response times, and latency through Prometheus and Grafana.
+### 3. API Development and Containerization
 
-- **CI/CD Pipeline Integration**: Integrated a github action CI/CD pipeline to lint, test and deploy the push image to docker hub
+A **FastAPI**-based prediction API was developed to accept JSON input and return predicted house values. The entire service was packaged into a **Docker** container for consistent deployment across any environment.
 
-- **API Endpoints**:
-  - `/predict`: Predict housing prices based on provided input data.
-  - `/retrain`: Trigger the retraining process for the model.
-  - `/metrics`: Exposes metrics for Prometheus to collect.
-  - `/logs`: Exposes the logs for predictions which includes request and prediction result. 
----
+### 4. CI/CD Automation with GitHub Actions
 
-## Installation
+A **GitHub Actions** workflow was implemented to automate linting, testing, building Docker images, and pushing them to Docker Hub. This ensures zero manual intervention from code commit to service deployment.
 
-0. Prerequisites - Python, Docker and Git must be installed.
+### 5. Logging and Monitoring
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/Chandrashekhar-26/california-housing-price-prediction.git
-    cd california-housing-price-prediction
-    ```
+Structured logging was implemented for all incoming prediction requests and their outputs, stored for auditing. An optional `/metrics` endpoint was added to expose runtime performance statistics, supporting integration with monitoring tools like **Prometheus** and **Grafana**.
 
-2. Create a virtual environment and install dependencies (Skip if Running in Docker):
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Ubuntu 
-    venv\Scripts\activate  # On Windows 
-    pip install -r requirements.txt
-    ```
-   
-3. Copy environment
-    ```
-    scp .env.prod .env
-   ```
-   
-3. Copy Raw housing dataset to original dataset file (this is one time job as dvc is tracking and we should not push dataset directly)
-    ```
-    scp .\resources\data\housing_data_raw.csv scp .\resources\data\housing.csv
-   ```
+## 🛠️ Tech Stack
 
----
+| **Category** | **Technology** | 
+| :--- | :--- |
+| **Orchestration** | Docker, Docker Compose | 
+| **Experiment Tracking** | MLflow | 
+| **Monitoring** | Prometheus, Grafana | 
+| **API Framework** | FastAPI | 
+| **CI/CD** | GitHub Actions | 
+| **Data Version Control** | DVC (optional) | 
+| **Machine Learning** | Scikit-learn, Pandas, NumPy | 
+| **Web Development** | HTML, CSS (Tailwind CSS), JavaScript | 
 
-## Running the App
+## ⚙️ End-to-End Workflow
 
-1. Make sure "Docker Desktop" Application is up and Running
+1. **Model Training:** A training script logs parameters, metrics, and artifacts to MLflow, which stores the data in a persistent volume.
 
-2. Build and Run in Docker
-   ```bash
-   docker-compose up --build
-   ```
+2. **Model Deployment:** FastAPI loads the latest registered model from MLflow for inference and exposes prediction APIs.
 
-## Access Applications and Endpoints
-1. Access application endpoints at following uri:
-   1. Predict API endpoint: http://localhost:5001/app/api/v1/housing-price/predict
-   2. Metrics API endpoint (Used by prometheus to query metrics): http://localhost:5001/app/api/v1/housing-price/metrics
-   3. Retrain API endpoint: http://localhost:5001/app/api/v1/housing-price/retrain
-   4. Logs API endpoint: http://localhost:5001/app/api/v1/housing-price/logs
-2. Access Prometheus at : http://localhost:9090
-3. Access Grafana at : http://localhost:3000
-4. Access MLFlow at : http://localhost:5000
+3. **Monitoring & Visualization:** Prometheus scrapes metrics from FastAPI, and Grafana displays this data in real-time dashboards for insights into model performance and system health.
+
+## 📖 Deployment Guide
+
+### Pre-requisites
+
+Ensure that both **Docker** and **Docker Compose** are installed on your system.
+
+For detailed setup instructions, please see the [**Installation Guide**](https://sites.google.com/wilp.bits-pilani.ac.in/mlops-assignment-group-5/installation_guide).
+
+### Run the Stack
+
+To start the entire application stack, run the following command in your terminal:
+
+```
+docker-compose up -d
+```
+
+### Access Services
+
+* **MLflow UI:** `http://localhost:5000`
+
+* **FastAPI Docs:** `http://localhost:8000/docs`
+
+* **Prometheus UI:** `http://localhost:9090`
+
+* **Grafana UI:** `http://localhost:3000`
+
+## 👥 Contributors
+
+* **Atul Bhatia** (2023ac05893@wilp.bits-pilani.ac.in)
+
+* **Girish Satyam** (2023ad05061@wilp.bits-pilani.ac.in)
+
+* **Vrushab S** (2023ad05052@wilp.bits-pilani.ac.in)
+
+* **Chandrashekhar Kumar** (2023ac05042@wilp.bits-pilani.ac.in)
