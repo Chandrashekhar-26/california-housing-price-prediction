@@ -10,7 +10,7 @@ class SQLiteLogHandler(logging.Handler):
     def __init__(self, log_dir='logs'):
         super().__init__()
         os.makedirs(log_dir, exist_ok=True)
-        self.db_path = f'{log_dir}/logs.db'
+        self.db_path = f'{log_dir}/log.db'
         self.conn = sqlite3.connect(self.db_path)
         self._create_logs_table()
 

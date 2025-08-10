@@ -2,7 +2,7 @@ from fastapi.responses import RedirectResponse
 from datetime import datetime
 import uvicorn
 import mlflow
-import warnings
+# import warnings
 from app import create_app
 from config import Config
 from app.logger import RequestResponseLoggerMiddleware
@@ -28,7 +28,8 @@ app.add_middleware(RequestResponseLoggerMiddleware)
 # RESPONSE_TIME = Summary("prediction_response_time_seconds", "Time taken for prediction response")
 
 # turn warnings off
-warnings.filterwarnings("ignore")
+# warnings.filterwarnings("ignore")
+
 
 @app.on_event("startup")
 async def startup_event():

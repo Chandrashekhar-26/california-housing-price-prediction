@@ -1,6 +1,7 @@
 import pandas as pd
 from app.data_processor import DataProcessor
 from app.model import LinearRegressionModel, DecisionTreeModel, modelManager
+from app.logger import logger
 from .best_model_finder import best_model_finder
 
 
@@ -94,11 +95,9 @@ class HousingPricePredictionService:
 
         return response
 
-    # def predict_linear_regression(self, X):
-    #     return self.linear_regression_model.predict(X)
-    #
-    # def predict_decision_tree_regression(self, X):
-    #     return self.decision_tree_model.predict(X)
+    def fetch_logs(self):
+        fetch_logs = logger.fetch_logs()
+        return fetch_logs
 
 
 housingPricePredictionService = HousingPricePredictionService()

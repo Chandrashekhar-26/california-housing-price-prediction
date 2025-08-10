@@ -1,4 +1,5 @@
 import joblib
+import os
 
 
 class ModelManager:
@@ -7,18 +8,21 @@ class ModelManager:
 
     def __init__(self):
         # load models from local
-        try:
-            loaded_models = joblib.load(self.models_dump_key)
-            if loaded_models is not None:
-                self.models = loaded_models
-        except Exception as e:
-            print(f'Error loading saved models. Error: {e}')
+        if os.path.exists(self.models_dump_key):
+            try:
+                loaded_models = joblib.load(self.models_dump_key)
+                if loaded_models is not None:
+                    self.models = loaded_models
+            except Exception as e:
+                print(f'Error loading saved models. Error: {e}')
+        else:
+            print(f"No model file found..")
 
     def save_model(self, model_name, model):
         try:
             if model_name is not None and model is not None:
-                self.models[model_name] = model # append to current models dict
-                joblib.dump(self.models, self.models_dump_key) # save updated models dict
+                self.models[model_name] = model  # append to current models dict
+                joblib.dump(self.models, self.models_dump_key)  # save updated models dict
             else:
                 raise Exception('Invalid model to be saved')
         except Exception as e:

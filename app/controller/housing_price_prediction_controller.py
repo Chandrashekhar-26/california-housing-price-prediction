@@ -41,3 +41,8 @@ def retrain():
 @housing_price_prediction_router.get("/metrics")
 def get_metric():
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+
+@housing_price_prediction_router.get("/logs")
+def fetch_logs():
+    return housingPricePredictionService.fetch_logs()

@@ -2,11 +2,14 @@ import logging
 import os
 from .sqlite_log_handler import sqlite_log_handler
 from config import Config
+import sqlite3
+
 
 class Logger:
 
     def __init__(self, log_dir='logs'):
         os.makedirs(log_dir, exist_ok=True)
+        self.log_dir = log_dir
 
         # Create file handler
         file_handler = logging.FileHandler(f"./{log_dir}/log.log")
@@ -35,6 +38,28 @@ class Logger:
 
     def log(self, level, log_msg):
         self.logger.log(level, log_msg)
+
+    def fetch_logs(self):
+        conn = None
+        query = "SELECT id, timestamp, level, message, module, function FROM logs ORDER BY timestamp DESC"
+        result = []
+
+        try:
+            conn = sqlite3.connect(f"./{self.log_dir}/log.db")
+            cursor = conn.cursor()
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            result = rows
+        except sqlite3.Error as e:
+            error = f"Error fetching logs: {e}"
+            print(error)
+            return error
+
+        finally:
+            if conn is not None:
+                conn.close()
+
+        return result
 
 
 logger = Logger(Config.LOG_DIR)
