@@ -70,6 +70,16 @@ Also it is integrated with prometheus and grafana to have a nice dashboard to mo
     venv\Scripts\activate  # On Windows 
     pip install -r requirements.txt
     ```
+   
+3. Copy environment
+    ```
+    scp .env.prod .env
+   ```
+   
+3. Copy Raw housing dataset to original dataset file (this is one time job as dvc is tracking and we should not push dataset directly)
+    ```
+    scp .\resources\data\housing_data_raw.csv scp .\resources\data\housing.csv
+   ```
 
 ---
 
