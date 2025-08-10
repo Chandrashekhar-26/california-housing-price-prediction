@@ -121,7 +121,6 @@ jobs:
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             cd /home/ubuntu/application/source/california-housing-price-prediction
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose pull && docker compose up -d --remove-orphans
             docker image prune -af
           EOF
