@@ -30,7 +30,7 @@ services:
       --default-artifact-root /mlflow/mlruns
 
   app:
-#    build: . # enable only if requred to build from local
+    build: . # enable only if requred to build from local
     image: cshekhark/california-housing-price-prediction-repo:latest
     container_name: california-housing-price-prediction
     ports:
