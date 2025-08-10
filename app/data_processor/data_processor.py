@@ -1,11 +1,24 @@
+
+"""
+DataProcessor module for handling California housing dataset operations.
+Includes loading, preprocessing, and splitting data for model training and evaluation.
+"""
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
 
 class DataProcessor:
+    """
+    Provides static methods for loading, preprocessing, and splitting the California housing dataset.
+    """
 
     @staticmethod
     def load_housing_data():
+        """
+        Loads the California housing dataset from a CSV file.
+        Returns:
+            pd.DataFrame: DataFrame containing the housing data.
+        """
         # # load dataset from sklearn dataser
         # california = fetch_california_housing()
         # df = pd.DataFrame(california.data, columns=california.feature_names)
@@ -17,6 +30,14 @@ class DataProcessor:
 
     @staticmethod
     def split_train_test_dataset(df, target_column='median_house_value'):
+        """
+        Splits the dataset into training and testing sets.
+        Args:
+            df (pd.DataFrame): The input DataFrame.
+            target_column (str): The name of the target column.
+        Returns:
+            tuple: X_train, X_test, y_train, y_test
+        """
         # features and target
         X = df.drop(columns=[target_column])
         y = df[target_column]
@@ -27,6 +48,13 @@ class DataProcessor:
 
     @staticmethod
     def preprocess_dataset(df):
+        """
+        Preprocesses the dataset by handling missing values, feature engineering, and encoding categorical variables.
+        Args:
+            df (pd.DataFrame): The input DataFrame.
+        Returns:
+            pd.DataFrame: The preprocessed DataFrame.
+        """
         df = df.copy()  # to avoid chnages on original df
 
         # Handle missing values for 'total_bedrooms'
