@@ -5,11 +5,21 @@ import time
 
 
 class BestModelFinder:
+    """
+    Finds and manages the best performing model from MLflow experiments.
+    Registers and loads the best model based on the highest R² score.
+    """
     experiment_name = None
     client = MlflowClient()
     __best_model = None
 
     def __init__(self, experiment_name):
+        """
+        Initializes the BestModelFinder with the given experiment name.
+        Sets up MLflow tracking and experiment, and finds the best model.
+        Args:
+            experiment_name (str): Name of the MLflow experiment.
+        """
         self.experiment_name = experiment_name
 
         # Set MLflow experiment on initiation
@@ -29,6 +39,12 @@ class BestModelFinder:
 
 
     def get_best_model(self):
+        """
+        Returns the best performing model and its name.
+        If not found, attempts to find and register the best model.
+        Returns:
+            tuple: (best_model, best_model_name)
+        """
         if self.__best_model is not None:
             return self.__best_model, self.__best_model_name
         else:
@@ -36,6 +52,13 @@ class BestModelFinder:
             self.__best_model, self.__best_model_name = self.__find_best_model()
 
     def __get_best_run(self):
+        """
+        Finds the best run in the experiment based on the highest R² score.
+        Returns:
+            Run: MLflow run object with the best R² score.
+        Raises:
+            ValueError: If no experiment or runs are found, or no run has 'r2_score'.
+        """
         # fin runs for given experiment
         experiment = self.client.get_experiment_by_name(self.experiment_name)
         if experiment is None:
@@ -58,6 +81,11 @@ class BestModelFinder:
         return best_run
 
     def __find_best_model(self):
+        """
+        Registers and loads the best performing model from the best run.
+        Returns:
+            tuple: (best_model, best_run_model_name)
+        """
         best_run = self.__get_best_run()
         best_run_model_name = best_run.info.run_name
         best_model_name = "BestPerformingModel"
@@ -79,6 +107,15 @@ class BestModelFinder:
         return best_model, best_run_model_name
 
     def __wait_until_model_ready(self, model_name, version, timeout=30):
+        """
+        Waits until the specified model version is ready in MLflow.
+        Args:
+            model_name (str): Registered model name.
+            version (int): Model version.
+            timeout (int): Timeout in seconds.
+        Raises:
+            TimeoutError: If model is not ready within the timeout period.
+        """
         for _ in range(timeout):
             model_version = self.client.get_model_version(name=model_name, version=version)
             if model_version.status == "READY":
