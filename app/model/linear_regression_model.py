@@ -43,17 +43,3 @@ class LinearRegressionModel(BaseModel):
 
             return linear_regression_mse, linear_regression_r2, linear_regression_rmse, linear_regression_mae
 
-    # def evaluate(self, X_test, y_test):
-    #     # Predictions
-    #     y_pred = self.predict(X_test)
-    #
-    #     # Evaluation
-    #     mse = mean_squared_error(y_test, y_pred)
-    #     r2 = r2_score(y_test, y_pred)
-    #     print(f"Mean Squared Error (MSE): {mse:.4f}")
-    #     print(f"R Squared Score: {r2:.4f}")
-    #
-    #     return mse, r2
-    #
-    # def predict(self, X):
-    #     return self.model.predict(X)

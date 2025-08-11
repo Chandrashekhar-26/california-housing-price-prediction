@@ -20,4 +20,9 @@
 # docker-compose push
 
 # Build and Run Docker along with Prometheus
-docker-compose up --build
+#docker-compose pull
+#docker-compose up --build
+
+# for latest docker version
+docker compose pull
+docker compose up --build
