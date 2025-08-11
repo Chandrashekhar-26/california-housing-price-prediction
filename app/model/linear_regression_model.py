@@ -42,4 +42,3 @@ class LinearRegressionModel(BaseModel):
             mlflow.sklearn.log_model(self.model, artifact_path=self.model_name)
 
             return linear_regression_mse, linear_regression_r2, linear_regression_rmse, linear_regression_mae
-
